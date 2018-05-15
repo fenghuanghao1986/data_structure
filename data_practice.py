@@ -103,25 +103,47 @@ def anagramSolution4(s1, s2):
     return stillOK
 
 print(anagramSolution4('asdfghjj', 'asdfghj'))
-        
+ 
+from timeit import Timer
+  
 def test1():
     l = []
-    for i in range(10000):
+    for i in range(1000):
         l = l + [i]
         
 def test2():
     l = []
-    for i in range(10000):
+    for i in range(1000):
         l.append(i)
         
 def test3():
-    l = [i for i in range(10000)]
+    l = [i for i in range(1000)]
     
 def test4():
-    l = list(range(10000))
+    l = list(range(1000))
 
 # How to use object Timer????
 t1 = Timer("test1()", "from __main__ import test1")
-print("concat ", t1.timeit(number=10000), "milliseconds")
+print("concat ", t1.timeit(number=1000), "milliseconds")
 
+t2 = Timer("test2()", "from __main__ import test2")
+print("append ", t2.timeit(number=1000), "milliseconds")
+
+t3 = Timer("test3()", "from __main__ import test3")
+print("comprehension ", t3.timeit(number=1000), "milliseconds")
+
+t4 = Timer("test4()", "from __main__ import test4")
+print("list range ", t4.timeit(number=1000), "milliseconds")
+
+import timeit
+
+popzero = timeit.Timer("x.pop(0)", "from __main__ import x")
+
+popend = timeit.Timer("x.pop()", "from __main__ import x")
+
+x = list(range(20000000))
+popzero.timeit(number=1000)
+
+x = list(range(20000000))
+popend.timeit(number=1000)
 
