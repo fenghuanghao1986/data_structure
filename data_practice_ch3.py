@@ -25,4 +25,3 @@ class Queue:
         return len(self.items)
     
 # hot potato
-        
