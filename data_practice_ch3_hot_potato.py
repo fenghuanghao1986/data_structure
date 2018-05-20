@@ -17,9 +17,12 @@ def hotPotato(namelist, num):
         simqueue.enqueue(name)
     # game will stop till there is only one name in the list    
     while simqueue.size() > 1:
+        # as long as the number of the name is less then the given num
+        # the name will be pop out from the queue and re-insert 
+        # at the end of the queue for next count
         for i in range(num):
             simqueue.enqueue(simqueue.dequeue())
-            
+        # after one round of queue activity pop the current first name out    
         simqueue.dequeue()
         
     return simqueue.dequeue()
