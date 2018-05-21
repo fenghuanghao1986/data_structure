@@ -26,6 +26,21 @@ class Printer:
     def startNext(self, newtask):
         self.currentTask = newtask
         self.timeRemaining = newtask.getPages() * 60/self.pagerate
-        
 
+# for more real simulation purpose, import random time for each task
+import random
+
+class Task:
+    def __init__(self, time):
+        self.timestamp = time
+        self.pages = random.randrange(1, 21)
+    # get a timestamp when task come in 
+    def getStamp(self):
+        return self.timestamp
+    # get page numbers of the task
+    def getPage(self):
+        return self.pages
+    # calculate the time it may wait 
+    def waitTime(self, currenttime):
+        return currenttime - self.timestamp
     
