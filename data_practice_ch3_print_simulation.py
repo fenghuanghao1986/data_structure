@@ -38,7 +38,7 @@ class Task:
     def getStamp(self):
         return self.timestamp
     # get page numbers of the task
-    def getPage(self):
+    def getPages(self):
         return self.pages
     # calculate the time it may wait 
     def waitTime(self, currenttime):
@@ -47,28 +47,38 @@ class Task:
 from pythonds.basic.queue import Queue
 
 import random
-
+# define the simulation
 def simulation(numSeconds, pagesPerMinute):
-    
+    # create a new printer object
     labprinter = Printer(pagesPerMinute)
+    # create a queue object
     printQueue = Queue()
+    # create a list type of object, for storing all waiting times for each task
     waitingtimes = []
-    
+    # unit is based on second, and numSeconds is the total time
+    # for simulation, create a loop for simulation
     for currentSecond in range(numSeconds):
-        
+        # newprinttaask decides whether we want to create a new task
+        # see detail in newPrintTask function defined later
         if newPrintTask():
             task = Task(currentSecond)
-            printQueue.enqueue(task)
-            
+            # if there is a new task, put that new task to
+            # the end of the queue
+            printQueue.enqueue(task)    
         if (not labprinter.busy()) and (not printQueue.isEmpty()):
+            # when printer is not busy or queue is empty
+            # start to process next task from the top of the task queue
             nexttask = printQueue.dequeue()
+            # meanwhile add the waiting time to the end of the time lise
             waitingtimes.append(nexttask.waitTime(currentSecond))
+            # then start the next task pop out from the queue
             labprinter.startNext(nexttask)
-            
+        # keep counting the time till the end of the task    
         labprinter.tick()
         
     averageWait = sum(waitingtimes) / len(waitingtimes)
-    print("Average Wait %6.2f secs %3d tasks remaining."%(averageWait,printQueue.size()))
+    print("Average Wait %6.2f secs %3d tasks remaining."%(averageWait,
+                                                          printQueue.size()))
     
 def newPrintTask():
     num = random.randrange(1, 181)
